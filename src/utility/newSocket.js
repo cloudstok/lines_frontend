@@ -1,14 +1,14 @@
 // newSocket.js
-import { io } from 'socket.io-client';
+import { io } from "socket.io-client";
 
-const URL = process.env. REACT_APP_NEW_BACKEND_SOCKET_URL_GAME;
+const URL = "https://backend-limbo.maharaj365.in/";
 
-export const createSocket = (token,gameId) => {
-    return io(URL, {
-        transports: ['websocket'],
-        query: {
-            game_id:gameId,
-            token
-        }
-    });
+export const createSocket = (token, gameId) => {
+  return io(URL, {
+    transports: ["websocket"],
+    query: {
+      game_id: gameId,
+      token,
+    },
+  });
 };
