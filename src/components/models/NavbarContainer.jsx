@@ -1,23 +1,33 @@
 import React, { useState } from "react";
-import { AiFillSound } from "react-icons/ai";
-import { MdMusicOff } from "react-icons/md";
-import { MdMusicNote } from "react-icons/md";
 import { TiHome } from "react-icons/ti";
 import "../models/model.css";
-import { BsInfoLg } from "react-icons/bs";
-import { IoInformationCircleOutline } from "react-icons/io5";
 import GameInfo from "./GameInfo";
-const NavbarContainer = () => {
+import { icon } from "../../utility/icon";
+import { Link } from "react-router-dom";
+const NavbarContainer = ({ queryParams }) => {
   const [isSoundOn, setIsSoundOn] = useState(true);
   const [isMusicOn, setIsMusicOn] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
+  const [isActive, setIsActive] = useState(false);
+  const [isMusicDisabled, setIsMusicDisabled] = useState(false); // State to disable music toggle
+  const [isTurbo, setIsTurbo] = useState(true); // State to toggle image
 
   const toggleSound = () => {
-    setIsSoundOn((prev) => !prev);
+    const newSoundState = !isSoundOn;
+    setIsSoundOn(newSoundState);
+    setIsMusicDisabled(!newSoundState); // Disable music toggle when sound is turned off
+    if (!newSoundState) {
+      setIsMusicOn(false); // Ensure music is turned off when sound is off
+    }
+  };
+  const toggleTurbo = () => {
+    setIsTurbo((prev) => !prev); // Toggle between true and false
   };
 
   const toggleMusic = () => {
-    setIsMusicOn((prev) => !prev);
+    if (!isMusicDisabled) {
+      setIsMusicOn(!isMusicOn);
+    }
   };
 
   const toggleModal = () => {
@@ -32,39 +42,62 @@ const NavbarContainer = () => {
           onClick={toggleSound}
           style={{ cursor: "pointer" }}
         >
-          <span className="border-icon">
-            <AiFillSound className="icons-all" />
-            {!isSoundOn && <span className="sound-line"></span>}
-          </span>
+          <img
+            src={isSoundOn ? icon.soundIcon : icon.unSoundIcon}
+            alt={isSoundOn ? "Sound On" : "Sound Off"}
+          />
           <span className="sound-text">SOUND</span>
         </li>
-        <li className="MainNavbar__item direction-icnon" onClick={toggleMusic}>
-          <span className="border-icon">
-            {isMusicOn ? (
-              <MdMusicNote className="icons-all" />
-            ) : (
-              <MdMusicOff className="icons-all" />
-            )}
-          </span>
+
+        <li
+          className={`MainNavbar__item ${isMusicDisabled ? "disabled" : ""}`}
+          onClick={toggleMusic}
+          style={{
+            cursor: isMusicDisabled ? "not-allowed" : "pointer",
+            opacity: isMusicDisabled ? 0.5 : 1,
+            color: isMusicDisabled ? "gray" : "inherit",
+          }}
+        >
+          <img
+            src={
+              isMusicOn && !isMusicDisabled ? icon.muteIcon : icon.unmuteIcon
+            }
+            alt={isMusicOn && !isMusicDisabled ? "Music On" : "Music Off"}
+          />
           <span className="sound-text">MUSIC</span>
         </li>
+
         <li
-          className="MainNavbar__item direction-icnon"
-          onClick={toggleModal} // Open modal on click
+          className="MainNavbar__item"
+          onClick={toggleTurbo}
+          style={{ cursor: "pointer" }}
         >
-          <span className="border-icon" style={{ border: "2px solid #4ace4a" }}>
-            <BsInfoLg className="icons-all" style={{ color: "#4ace4a" }} />
-          </span>
+          <img
+            src={isTurbo ? icon.turboIcon : icon.unknownTurbo}
+            alt={isTurbo ? "Turbo Icon" : "Unknown Turbo Icon"}
+          />
+          <span className="sound-text">TURBO</span>
+        </li>
+
+        <li
+          className="MainNavbar__item"
+          onClick={toggleModal}
+          style={{ cursor: "pointer" }}
+        >
+          <img src={icon.infoIcon} alt="Info Icon" />
           <span className="sound-text">INFO</span>
         </li>
-        <li className="MainNavbar__item direction-icnon">
-          <span className="border-icon" style={{ border: "2px solid #4ace4a" }}>
-            <TiHome className="icons-all" style={{ color: "#4ace4a" }} />
-          </span>
+
+        <Link
+          to={`https://lobbydesign.ayodhya365.co/?id=${queryParams.id}`}
+          className="MainNavbar__item"
+          style={{ cursor: "pointer", textDecoration: "none" }}
+        >
+          <img src={icon.homeIcon} alt="Home Icon" />
           <span className="sound-text">HOME</span>
-        </li>
+        </Link>
       </ul>
-      {/* {/ Modal /} */}
+
       {isModalOpen && (
         <div className="game-info-modal">
           <GameInfo toggleModal={toggleModal} />

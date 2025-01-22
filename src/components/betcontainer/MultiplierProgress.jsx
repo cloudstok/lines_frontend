@@ -1,84 +1,222 @@
 import React, { useState } from "react";
+import io from "socket.io-client";
+import { getMaxMult } from "../../utility/helper";
+import { icon } from "../../utility/icon";
 
-const MultiplierProgress = () => {
-  const [value, setValue] = useState(42);
-  const [number, setNumber] = useState();
-  const handleChange = (e) => {
-    const newValue = e.target.value;
-    setValue(newValue);
-    // Map value to range between 2 and 98
-    const newNumber = Math.max(2, Math.min(98, newValue));
-    setNumber(newNumber);
+const MultiplierProgress = ({
+  sliders,
+  setSliders,
+  resultData,
+  totalMultiplier,
+  setTotalMultiplier,
+  isBetting,
+  firstResult,
+  secondResult,
+  thirdResult,
+  iconSrc,
+  isRefrece,
+  statusData,
+}) => {
+  const [isActive, setIsActive] = useState(false);
+  const [activeSliderIndex, setActiveSliderIndex] = useState(null);
+  const handleMouseDown = (index) => {
+    setActiveSliderIndex(index);
   };
-  return (
-    <div className="slider-wrapper">
-      <div className="lines-container">
-        <p>LINES</p>
-      </div>
-      <div
-        className="value-display"
-        // style={{
-        //   left: `calc(${value}% - ${value > 50 ? "100px" : "25px"})`,
-        // }}
-      >
-        <div className="value-button">{(value / 100).toFixed(2)}x</div>
-      </div>
-      <div
-        className="slider-scale"
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          margin: "1rem",
-          color: "#fff",
-          fontSize: "14px",
-          fontWeight: 800,
-        }}
-      >
-        <span>1</span>
-        <span>25</span>
-        <span>50</span>
-        <span>75</span>
-        <span>100</span>
-      </div>
-      <div
-        className=""
-        style={{ border: ".5rem solid #fff", borderRadius: ".5rem" }}
-      >
-        <div style={{ border: ".2rem solid black ", borderRadius: "3px" }}>
+
+  const handleMouseUp = () => {
+    setActiveSliderIndex(null);
+  };
+
+  const handleSliderChange = (index, e) => {
+    const value = Math.max(2, Math.min(98, parseInt(e.target.value, 10))); // Clamp value between 2 and 98
+    const updatedSliders = [...sliders];
+    updatedSliders[index] = value;
+
+    const newTotalMultiplier = getMaxMult(updatedSliders);
+
+    setSliders(updatedSliders);
+    setTotalMultiplier(newTotalMultiplier);
+  };
+
+  const handleAddSlider = () => {
+    if (sliders.length < 3) {
+      const updatedSliders = [...sliders, 50];
+      const newTotalMultiplier = getMaxMult(updatedSliders);
+
+      setSliders(updatedSliders);
+      setTotalMultiplier(newTotalMultiplier);
+    }
+  };
+
+  const handleRemoveSlider = (index) => {
+    const updatedSliders = sliders.filter((_, i) => i !== index);
+    const newTotalMultiplier = getMaxMult(updatedSliders);
+    setSliders(updatedSliders);
+    setTotalMultiplier(newTotalMultiplier);
+  };
+
+  const renderSlider = (value, index) => {
+    const isActive = activeSliderIndex === index;
+
+    let resultWidth = "0";
+    if (index === 0) {
+      resultWidth = `${firstResult}%`;
+    } else if (index === 1 && secondResult) {
+      resultWidth = `${secondResult}%`;
+    } else if (index === 2 && thirdResult) {
+      resultWidth = `${thirdResult}%`;
+    }
+
+    return (
+      <div className="" style={{ position: "sticky" }}>
+        <div className="lines-section" key={index}>
+          {index === 0 && (
+            <div
+              className="current-value-progress"
+              style={{
+                left: `calc(${value}% - ${value > 50 ? "100px" : "25px"})`,
+              }}
+            >
+              <span className="multi-img">
+                <img src={iconSrc} alt="Group Icon" />
+              </span>
+              <p className="xvalue">{totalMultiplier.toFixed(2)}x</p>
+            </div>
+          )}
+          <div className="slider-scale">
+            <span>1</span>
+            <span>25</span>
+            <span>50</span>
+            <span>75</span>
+            <span>100</span>
+          </div>
+          <div className="tringle-container">
+            <div className="triangle-up"></div>
+            <div className="triangle-up1"></div>
+            <div className="triangle-up2"></div>
+            <div className="triangle-up3"></div>
+            <div className="triangle-up4"></div>
+          </div>
+          <div className="white-border">
+            <div className="black-border">
+              <div
+                className="slider-track"
+                style={{
+                  background: `linear-gradient(to right, red ${value}%, #4ace4a ${value}%)`,
+                }}
+              >
+                <div
+                  className={`white-bg ${isRefrece ? "white-bg-active" : ""}`}
+                  style={{
+                    width: resultWidth,
+                    transition: resultWidth ? "width 0.5s linear" : "",
+                  }}
+                ></div>
+
+                <input
+                  type="range"
+                  min="2"
+                  max="98"
+                  value={value}
+                  onMouseDown={() => handleMouseDown(index)}
+                  onMouseUp={handleMouseUp}
+                  onChange={(e) => handleSliderChange(index, e)}
+                  // className="slider"
+                  className={`slider ${isActive ? "active" : ""}`} // Add "active" if isActive is true
+                />
+              </div>
+
+              <img
+                src={isActive ? icon.scrollBar : icon.misc}
+                alt="Slider Thumb"
+                className="slider-thumb"
+                style={{
+                  left: `calc(${value}% - 10px)`,
+                }}
+              />
+              <>
+                {isRefrece && (
+                  <div
+                    className="white-value-no"
+                    style={{
+                      left: `calc(${resultWidth} - 6px)`,
+                      transition: "left 0.3s ease-out",
+                    }}
+                  >
+                    {resultWidth.replace("%", "")}
+                  </div>
+                )}
+              </>
+            </div>
+          </div>
+
+          <div className="" style={{ position: "relative" }}>
+            {index === 1 && sliders.length === 2 && !isBetting && (
+              <img
+                className="cross-first"
+                src={icon.crossIcon}
+                alt="Remove Slider"
+                onClick={() => handleRemoveSlider(1)}
+                style={{
+                  position: "absolute",
+                  top: "-80px",
+                  left: "-40px",
+                  cursor: "pointer",
+
+                  height: "40px",
+                }}
+              />
+            )}
+
+            {index === 2 && sliders.length > 2 && !isBetting && (
+              <img
+                className="cross-second"
+                src={icon.crossIcon}
+                alt="Remove Slider"
+                onClick={() => handleRemoveSlider(2)}
+                style={{
+                  position: "absolute",
+                  top: "-80px",
+                  left: "-40px",
+                  cursor: "pointer",
+
+                  height: "40px",
+                }}
+              />
+            )}
+          </div>
+
           <div
-            className="slider-track"
+            className="value-display"
             style={{
-              background: `linear-gradient(to right, red ${value}%, #4ace4a ${value}%)`,
+              left: `calc(${value}% - 170px)`,
             }}
           >
-            <div className="slider-progress"></div>
-            <input
-              type="range"
-              min="1"
-              max="100"
-              value={value}
-              onChange={handleChange}
-              className="slider"
-            />
+            <div className="">
+              {value <= 2 ? "2(MIN)" : value >= 98 ? "98(MAX)" : `${value}`}
+            </div>
           </div>
         </div>
       </div>
-      <div
-        className="value-display"
-        style={{
-          position: "relative",
-          color: "#fff",
-          fontSize: "12px",
-          fontWeight: 800,
-          marginTop: ".3rem",
-          left: `calc(${number}% - 235px)`,
-        }}
-      >
-        <div className="">
-          {number === 2 ? "2(min)" : number === 98 ? "98(max)" : `${number}`}
+    );
+  };
+
+  return (
+    <>
+      <div className="slider-wrapper">
+        <div className="lines-container">
+          <img src={icon.line} alt="Lines" />
         </div>
+        <div>{sliders.map((slider, index) => renderSlider(slider, index))}</div>
       </div>
-    </div>
+      {sliders.length < 3 &&
+        !isBetting && ( // Only show this section if not betting
+          <div className="plus-section" onClick={handleAddSlider}>
+            <h1>ADD LINE</h1>
+            <img src={icon.misc7} alt="Add Line" />
+          </div>
+        )}
+    </>
   );
 };
 
