@@ -120,12 +120,14 @@ body {
   max-width: 1600px;
 }
 .Pane__inner {
-  height: 100%;
-  width: 250px;
+  /* width: 250px; */
+  /* height: 595px; */
+  height: 595px;
+  width: 309px;
   background-color: var(--hg-bg-primary);
 }
 .manual-side-container {
-  height: 63%;
+  height: 370px;
   background: var(--hg-bg-user-panel);
   margin: 0 0.5em;
   padding: 0.5em;
@@ -137,7 +139,7 @@ body {
   margin-top: 0.2rem;
 }
 .manual-bg {
-  width: 100%;
+  width: 97%;
   height: 31px;
   border-radius: 20px;
   display: flex;
@@ -158,10 +160,13 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  background: transparent;
+
+  /* box-shadow: inset 1px 1px #fff1cd33; */
+  cursor: pointer;
+}
+.manual-btn-active {
   background: var(--hg-bg-accent);
-  border: 1px solid #00000080;
-  box-shadow: inset 1px 1px #fff1cd33;
-  cursor: default;
 }
 .Auto-btn {
   width: 150px;
@@ -175,7 +180,6 @@ body {
   font-weight: 600;
 }
 .manual-btn p {
-  color: var(--hg-text-secondary);
   font-size: 12px;
   font-weight: 600;
 }
@@ -198,17 +202,17 @@ body {
   justify-content: center;
   color: var(--hg-text-secondary);
   cursor: pointer;
-  font-size: 12px;
+  font-size: 10px;
   font-weight: 600;
   transition: background-color 0.3s; /* Smooth transition effect */
 }
 
-.btn-bet:hover {
+/* .btn-bet:hover {
   background-color: var(--hg-btn-disabled-bg);
 }
 .btn-bet:hover {
   background-color: var(--hg-btn-disabled-bg);
-}
+} */
 
 .direction-icnon {
   cursor: pointer;
@@ -220,16 +224,17 @@ body {
   /* background-color: #001a4d; */
   background-image: url(`../../assests/misc-4.png);
   background-repeat: no-repeat, repeat;
-  width: 74%;
+  width: 75%;
   padding: 1rem 1rem 1rem 0.5rem;
-  height: 100%;
+  /* height: 579px; */
+  height: 582px;
   border-radius: 0.25rem;
 
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .value-display {
-  width: 100%;
+  width: 10px;
   display: flex;
   justify-content: center;
   position: relative;
@@ -238,23 +243,28 @@ body {
   font-weight: 800;
   margin: 0rem 0 1.2rem 0;
 }
+.value-sticky {
+  position: sticky;
+}
 .current-value-progress {
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 2rem;
+  margin: 2rem 0;
 }
 .multi-img img {
   position: relative;
-  width: 202px;
+  /* width: 202px; */
   height: 63px;
-  text-align: center;
+  /* text-align: center; */
 }
 .xvalue {
-  position: relative;
-  top: -3px;
-  left: -147px;
+  position: absolute;
+  /* top: -3px; 
+  /* left: -147px; */
+  display: flex;
+  text-align: center;
   font-size: 30px;
   font-weight: 800;
   color: #fff;
@@ -270,10 +280,11 @@ body {
 .slider-scale {
   display: flex;
   justify-content: space-between;
-  margin: 0.2rem 0.5rem;
+  margin: 0.2rem 6px;
   color: #fff;
   font-size: 14px;
   font-weight: 800;
+  width: 100%;
 }
 .slider {
   -webkit-appearance: none;
@@ -303,7 +314,7 @@ body {
   height: 30px;
   border-radius: 0.5rem;
   /* background: #001a4d; */
-  cursor: pointer;
+
   /* border: 2px solid black; */
   pointer-events: auto;
 }
@@ -325,7 +336,7 @@ body {
 }
 .slider-track {
   position: relative;
-
+  width: 100%;
   height: 11px;
   overflow: hidden;
   background: linear-gradient(to right, red var(--value), #4ace4a var(--value));
@@ -350,7 +361,7 @@ body {
   width: 97%;
   display: flex;
   justify-content: space-between;
-  margin-left: 6px;
+  margin: 0 7px;
 }
 .triangle-up {
   width: 0;
@@ -417,13 +428,76 @@ body {
   font-size: 16px; /* Adjust as needed */
   text-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Optional for better visibility */
 }
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+}
 
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  background-color: transparent;
+  border: none;
+}
+
+input[type="range"]::-moz-range-thumb {
+  background-color: transparent;
+  border: none;
+}
 .crossIcon img {
   width: 40px;
   margin-left: -3rem;
 }
+.zoom-in-out-border {
+  animation: zoomOutWithShadow 0.5s ease-out;
+}
+
+@keyframes zoomOutWithShadow {
+  0% {
+    border-width: 6px;
+    border-color: green;
+    box-shadow: 0 0 25px green;
+    transform: scale(1);
+  }
+  50% {
+    border-width: 4px;
+    border-color: rgba(0, 128, 0, 0.8);
+    box-shadow: 0 0 15px rgba(0, 128, 0, 0.5);
+    transform: scale(0.95);
+  }
+  100% {
+    border-width: 2px;
+    border-color: green;
+    box-shadow: 0 0 5px green;
+    transform: scale(0.9);
+  }
+}
+.bounce {
+  animation: bounce 0.6s ease-in-out;
+}
+
+@keyframes bounce {
+  0% {
+    transform: scale(1);
+  }
+  30% {
+    transform: scale(1.2);
+  }
+  50% {
+    transform: scale(0.9);
+  }
+  70% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
 
 @media (max-width: 768px) {
+  .manual-bg {
+    width: 80%;
+  }
   .container {
     width: 100%;
     flex-direction: column-reverse;
@@ -440,49 +514,53 @@ body {
     /* flex-basis: 74%; */
     height: 81%;
     width: 100%;
+    padding: 0.5rem;
   }
 
   .manual-side-container {
-    height: 20%;
+    height: 15%;
     /* / width: 100%; / */
     background: var(--hg-bg-user-panel);
     margin: 0;
     border-radius: 4px;
-    margin-top: 0.5rem;
-    display: none;
-  }
-  .blance-info-container {
-    background: var(--hg-bg-user-panel);
-    margin: 0.5em;
-    padding: 0.5em;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    border-radius: 0.25rem;
+    justify-content: center;
+  }
+  .tringle-container {
+    width: auto;
+  }
+
+  .slider-thumb {
+    height: 22px;
+  }
+  .plus-section img {
+    margin-top: 2px;
+  }
+  .plus-section h1 {
+    font-size: 12px;
+  }
+  .lines-section {
+    margin-top: 0.4rem;
+  }
+  .balance-info {
+    height: 21px;
+  }
+  .anount-section {
+    height: 10px;
   }
 }
 
 @media (max-width: 1024px) {
-  .show-bet-graph-container {
+  /* .show-bet-graph-container {
     flex-basis: 74%;
     height: 93%;
-  }
+  } */
 
-  .manual-btn {
+  /* .manual-btn {
     max-width: 150px;
-  }
-  .manual-side-container {
+  } */
+  /* .manual-side-container {
     height: 572px;
-  }
-}
-
-@media (max-width: 1440px) {
-  .show-bet-graph-container {
-    flex-basis: 74%;
-    height: 100%;
-  }
-
-  .manual-btn {
-    max-width: 150px;
-  }
+  } */
 }

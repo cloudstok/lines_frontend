@@ -12,9 +12,9 @@ const App = () => {
 
       // Check device type
       if (/iPhone/i.test(userAgent)) {
-        headerHeight = 90; // iPhone header height
+        headerHeight = 100; // iPhone header height
       } else if (/Android/i.test(userAgent)) {
-        headerHeight = 45; // Android header height
+        headerHeight = 60; // Android header height
       } else {
         headerHeight = 60; // Default header height for other devices
       }
@@ -64,16 +64,16 @@ const App = () => {
     };
   }, []);
   return (
-    // <SoundProvider>
-    <BrowserRouter>
-      <Routes>
-        <Route
-          path="/"
-          element={<Home shouldShowRotateImage={shouldShowRotateImage} />}
-        />
-      </Routes>
-    </BrowserRouter>
-    // </SoundProvider>
+    <SoundProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route
+            path="/"
+            element={<Home shouldShowRotateImage={shouldShowRotateImage} />}
+          />
+        </Routes>
+      </BrowserRouter>
+    </SoundProvider>
   );
 };
 

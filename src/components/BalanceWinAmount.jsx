@@ -1,59 +1,80 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { formatBalance } from "../utility/helper";
 
-const BalanceWinAmount = ({ info, resultData, isBetting }) => {
+const BalanceWinAmount = ({ info, resultData, statusData }) => {
+  const [showPopup, setShowPopup] = useState(false);
+
+  useEffect(() => {
+    if (statusData === true) {
+      setShowPopup(true);
+
+      const timer = setTimeout(() => {
+        setShowPopup(false);
+      }, 2000);
+
+      return () => clearTimeout(timer);
+    } else {
+      setShowPopup(false);
+    }
+  }, [statusData]);
+
   return (
     <div style={{ height: "" }}>
+      {showPopup && (
+        <div className="win-amount-section">
+          Win Amount: {resultData?.winAmount}
+        </div>
+      )}
+
       <div className="blance-info-container">
         <div className="balance-info">
-          <div>
+          <div className="">
             <p
               className=""
               style={{
                 fontSize: "10px",
-                Color: "#e9ecef",
+                color: "#e9ecef",
                 textAlign: "center",
+                height: "10px",
               }}
             >
               BALANCE:
             </p>
-
             <p
               style={{
-                fontSize: "16px",
-                fontWeight: 700,
-                color: "fff",
+                fontSize: "14px",
+                fontWeight: 600,
+                color: "#fff",
                 marginTop: "6px",
               }}
             >
-              {info.balance}
+              {`${formatBalance(info.balance)}`}
             </p>
           </div>
         </div>
         <div className="balance-info">
-          <div className="">
-            <div>
-              <p
-                style={{
-                  fontSize: "10px",
-                  Color: "#e9ecef",
-                  textAlign: "center",
-                }}
-              >
-                WIN
-              </p>
-            </div>
-            <div className="">
-              <p
-                style={{
-                  fontSize: "16px",
-                  fontWeight: 700,
-                  color: "fff",
-                  marginTop: "6px",
-                }}
-              >
-                {resultData?.winAmount}
-              </p>
-            </div>
+          <div>
+            <p
+              style={{
+                fontSize: "10px",
+                color: "#e9ecef",
+                textAlign: "center",
+                height: "10px",
+              }}
+            >
+              WIN
+            </p>
+            <p
+              style={{
+                fontSize: "14px",
+                fontWeight: 600,
+                color: "#fff",
+                marginTop: "6px",
+                height: "10px",
+              }}
+            >
+              {resultData?.winAmount}
+            </p>
           </div>
         </div>
       </div>
