@@ -1,19 +1,16 @@
 import React, { useState, useEffect, useContext } from "react";
 import { formatBalance } from "../utility/helper";
 
-const BalanceWinAmount = ({ info, resultData, statusData }) => {
+const BalanceWinAmount = ({ info, resultData, statusData, winAmount1 }) => {
   const [showPopup, setShowPopup] = useState(false);
-  const [showWinAmount, setShowWinAmount] = useState(false);
 
   useEffect(() => {
     if (statusData && resultData?.winAmount) {
       const delayTimer = setTimeout(() => {
         setShowPopup(true);
-        setShowWinAmount(true); // Show win amount at the same time
 
         const hideTimer = setTimeout(() => {
           setShowPopup(false);
-          setShowWinAmount(false); // Hide win amount when pop-up disappears
         }, 2000);
 
         return () => clearTimeout(hideTimer);
@@ -22,7 +19,6 @@ const BalanceWinAmount = ({ info, resultData, statusData }) => {
       return () => clearTimeout(delayTimer);
     } else {
       setShowPopup(false);
-      setShowWinAmount(false);
     }
   }, [statusData, resultData]);
 
@@ -72,19 +68,17 @@ const BalanceWinAmount = ({ info, resultData, statusData }) => {
             >
               WIN
             </p>
-            {showWinAmount && ( // Show win amount only when showWinAmount is true
-              <p
-                style={{
-                  fontSize: "14px",
-                  fontWeight: 600,
-                  color: "#fff",
-                  marginTop: "6px",
-                  height: "10px",
-                }}
-              >
-                {resultData?.winAmount}
-              </p>
-            )}
+            <p
+              style={{
+                fontSize: "14px",
+                fontWeight: 600,
+                color: "#fff",
+                marginTop: "6px",
+                height: "10px",
+              }}
+            >
+              {winAmount1}
+            </p>
           </div>
         </div>
       </div>
