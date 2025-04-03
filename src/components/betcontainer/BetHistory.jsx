@@ -53,7 +53,11 @@ const BetHistory = ({ isOpen, onClose, info, totalMultiplier, resultData }) => {
           </button>
         </div>
 
-        <div className="table-container" ref={tableRef} style={{ overflowY: "auto", maxHeight: "400px" }}>
+        <div
+          className="table-container"
+          ref={tableRef}
+          style={{ overflowY: "auto", maxHeight: "400px" }}
+        >
           {loading && betData.length === 0 ? (
             <p>Loading bet history...</p>
           ) : betData.length > 0 ? (
@@ -70,13 +74,24 @@ const BetHistory = ({ isOpen, onClose, info, totalMultiplier, resultData }) => {
               </thead>
               <tbody>
                 {displayedData.map((el, index) => (
-                  <tr key={index} style={{ fontSize: "13px", cursor: "pointer" }} onClick={() => setSelectedBet(el)}>
+                  <tr
+                    key={index}
+                    style={{ fontSize: "13px", cursor: "pointer" }}
+                    onClick={() => setSelectedBet(el)}
+                  >
                     <td>{new Date(el?.created_at).toLocaleTimeString()}</td>
                     <td>{parseFloat(el?.bet_amount).toFixed(2)}</td>
                     <td>{el?.line_ranges}</td>
                     <td>{el?.max_mult}</td>
                     <td>{parseFloat(el?.payout).toFixed(2)}</td>
-                    <td style={{ color: el?.status === "WIN" ? "green" : "red", fontWeight: "bold" }}>{el?.status}</td>
+                    <td
+                      style={{
+                        color: el?.status === "WIN" ? "green" : "red",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {el?.status}
+                    </td>
                   </tr>
                 ))}
               </tbody>

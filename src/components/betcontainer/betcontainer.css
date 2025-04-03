@@ -354,8 +354,6 @@
 .table-container {
   max-height: 500px; /* Adjust height as needed */
   overflow-y: auto;
-  position: relative;
-
   /* border: 1px solid rgba(255, 255, 255, 0.1); */
 }
 
@@ -794,7 +792,9 @@ th {
   .action-pet-container {
     padding: 0.3rem;
   }
-
+  .menu-icon {
+    margin-right: 8px;
+  }
   .modal-overlay-bet {
     top: -66px;
   }

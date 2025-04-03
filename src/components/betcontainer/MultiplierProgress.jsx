@@ -280,7 +280,6 @@ const MultiplierProgress = ({
           resultData={resultData}
         />
       </div>
-      
       <div className="slider-wrapper">
         <div className="lines-container">
           <img src={icon.line} alt="Lines" />
