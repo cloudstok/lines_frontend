@@ -125,22 +125,22 @@ const Home = ({ shouldShowRotateImage }) => {
   useEffect(() => {
     const timeout = setTimeout(() => {
       if (resultData?.isWin === true) {
-        if (sound) {
+        if (sound && resultData?.isWin === true) {
           playWinSound();
         }
         setStatusData(true);
         setIconSrc(icon.group3);
       } else if (resultData?.isWin === false) {
-        if (sound) {
+        if (sound && resultData?.isWin === false) {
           playLossSound();
         }
         setStatusData(false);
         setIconSrc(icon.group2);
       }
-    }, 990); // 990ms delay
+    }, 990);
 
-    return () => clearTimeout(timeout); // Cleanup timeout when dependencies change
-  }, [resultData, sound]);
+    return () => clearTimeout(timeout);
+  }, [resultData]);
 
   // Separate useEffect for totalMultiplier check
   useEffect(() => {
@@ -148,7 +148,7 @@ const Home = ({ shouldShowRotateImage }) => {
       setStatusData(false);
       setIconSrc(icon.group2); // Use group2 if totalMultiplier is out of range
     } else {
-      setIconSrc(icon.groupA); // Default case
+      setIconSrc(icon.groupA);
     }
   }, [totalMultiplier]);
 
@@ -276,7 +276,7 @@ const Home = ({ shouldShowRotateImage }) => {
       ) : (
         <div className="container">
           <div className="Pane__inner">
-            <div className="manual-side-container">
+            <div className="input-content">
               <div className="manual-btn-container">
                 <div className="manual-bg">
                   <div
@@ -359,32 +359,34 @@ const Home = ({ shouldShowRotateImage }) => {
                 </div>
               </div>
             </div>
-            <BalanceWinAmount
-              info={info}
-              resultData={resultData}
-              statusData={statusData}
-              setStatusData={setStatusData}
-              winAmount1={winAmount1}
-            />
-            <AmountSection
-              handlePlacebet={handlePlaceBet}
-              amount={amount}
-              setAmount={setAmount}
-              autobetTab={autobetTab}
-              isBetting={isBetting}
-              setAutobet={setAutobet}
-              autobet={autobet}
-              totalMultiplier={totalMultiplier}
-              setTotalMultiplier={setTotalMultiplier}
-              info={info}
-              setShowBalance={setShowBalance}
-            />
-            <div className="main-navbar-container">
-              <NavbarContainer
-                queryParams={queryParams}
-                isTurbo={isTurbo}
-                setIsTurbo={setIsTurbo}
+            <div className="input-footer">
+              <BalanceWinAmount
+                info={info}
+                resultData={resultData}
+                statusData={statusData}
+                setStatusData={setStatusData}
+                winAmount1={winAmount1}
               />
+              <AmountSection
+                handlePlacebet={handlePlaceBet}
+                amount={amount}
+                setAmount={setAmount}
+                autobetTab={autobetTab}
+                isBetting={isBetting}
+                setAutobet={setAutobet}
+                autobet={autobet}
+                totalMultiplier={totalMultiplier}
+                setTotalMultiplier={setTotalMultiplier}
+                info={info}
+                setShowBalance={setShowBalance}
+              />
+              <div className="main-navbar-container">
+                <NavbarContainer
+                  queryParams={queryParams}
+                  isTurbo={isTurbo}
+                  setIsTurbo={setIsTurbo}
+                />
+              </div>
             </div>
           </div>
           <div className="show-bet-graph-container">

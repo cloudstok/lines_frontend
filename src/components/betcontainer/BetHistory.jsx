@@ -56,7 +56,11 @@ const BetHistory = ({ isOpen, onClose, info, totalMultiplier, resultData }) => {
         <div
           className="table-container"
           ref={tableRef}
-          style={{ overflowY: "auto", maxHeight: "400px" }}
+          style={{
+            overflowY: "auto",
+            maxHeight: "400px",
+            scrollbarWidth: "thin",
+          }}
         >
           {loading && betData.length === 0 ? (
             <p>Loading bet history...</p>
@@ -76,7 +80,7 @@ const BetHistory = ({ isOpen, onClose, info, totalMultiplier, resultData }) => {
                 {displayedData.map((el, index) => (
                   <tr
                     key={index}
-                    style={{ fontSize: "13px", cursor: "pointer" }}
+                    style={{ fontSize: "13px" }}
                     onClick={() => setSelectedBet(el)}
                   >
                     <td>{new Date(el?.created_at).toLocaleTimeString()}</td>
@@ -101,13 +105,24 @@ const BetHistory = ({ isOpen, onClose, info, totalMultiplier, resultData }) => {
           )}
         </div>
 
-        {displayedData.length < betData.length && (
-          <div className="load-more-container">
-            <button className="load-more-btn" onClick={handleLoadMore}>
-              Load More
-            </button>
-          </div>
-        )}
+        <div className="load-more-container">
+          <button
+            className="load-more-btn"
+            onClick={handleLoadMore}
+            disabled={displayedData.length >= betData.length}
+            style={{
+              opacity: displayedData.length >= betData.length ? 0.5 : 1,
+              cursor:
+                displayedData.length >= betData.length
+                  ? "not-allowed"
+                  : "pointer",
+            }}
+          >
+            {displayedData.length >= betData.length
+              ? "No More Data"
+              : "Load More"}
+          </button>
+        </div>
       </div>
 
       {/* Show the Bet Detail Modal when a bet is clicked */}

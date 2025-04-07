@@ -1,7 +1,7 @@
 /* abetContainer */
 .blance-info-container {
   background: var(--hg-bg-user-panel);
-  margin: 0.5em;
+  margin-top: 0.5em;
   padding: 0.5em;
   display: flex;
   align-items: center;
@@ -21,7 +21,7 @@
 /* amountsection */
 .action-pet-container {
   background: var(--hg-bg-user-panel);
-  margin: 0.5em;
+  margin: 0.5em 0;
   padding: 0.5em;
   border-radius: 0.25rem;
   /* display: flex;
@@ -87,7 +87,7 @@
 /* navbar */
 .main-navbar-container {
   background: var(--hg-bg-user-panel);
-  margin: 0.5em;
+  margin-top: 0.5em;
   padding: 0.4em;
   border-radius: 4px;
 }
@@ -184,7 +184,7 @@
   width: 50%;
   height: 100px;
   margin: auto;
-  margin-top: 1rem;
+  /* margin-top: 1rem; */
 }
 .add-section {
   display: flex;
@@ -192,7 +192,7 @@
   text-align: center;
 }
 .lines-container {
-  height: 70%;
+  height: 50%;
   display: flex;
   justify-content: center;
   /* color: var(--hg-text-primary); */
@@ -302,7 +302,7 @@
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   position: absolute;
   animation: fadeIn 0.3s ease-in-out;
-  top: 20px;
+  /* top: 1rem; */
 }
 
 .history-bet {
@@ -638,7 +638,7 @@ th {
   width: 25rem;
   animation: modal-new 0.5s ease-out forwards;
   position: absolute;
-  top: 4rem;
+  top: 10rem;
 }
 .modal-head {
   display: flex;

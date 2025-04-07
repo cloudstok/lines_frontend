@@ -30,23 +30,27 @@ const NavbarContainer = ({ queryParams, isTurbo, setIsTurbo }) => {
   };
 
   const toggleSound = () => {
-    const newSoundState = !sound;
-    setSound(newSoundState);
-    setIsMusicDisabled(!newSoundState);
-
-    if (!newSoundState) {
-      setMusic(false);
-      pauseBgMusic();
+    if (sound) {
+      setSound(false);
+    } else {
+      setSound(true);
     }
+    // const newSoundState = !sound;
+    // setSound(newSoundState);
+    // setIsMusicDisabled(!newSoundState);
+    // if (!newSoundState) {
+    //   setMusic(false);
+    //   pauseBgMusic();
+    // }
   };
 
   const toggleSoundWin = () => {
     if (sound) {
       setSound(false);
-      pauseSound();
+      // pauseSound();
     } else {
       setSound(true);
-      playSound();
+      // playSound();
     }
   };
 
@@ -84,7 +88,7 @@ const NavbarContainer = ({ queryParams, isTurbo, setIsTurbo }) => {
         <li
           className="MainNavbar__item"
           onClick={() => {
-            toggleSoundWin();
+            // toggleSoundWin();
             toggleSound();
           }}
           style={{ cursor: "pointer" }}
